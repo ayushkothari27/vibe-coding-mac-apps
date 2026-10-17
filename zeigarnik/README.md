@@ -1,51 +1,52 @@
 # Zeigarnik
 
-A macOS menu bar app named after the **Zeigarnik effect**: unfinished tasks keep nagging at your mind until they're written down somewhere you trust. Zeigarnik gives those "open loops" a place to go in two seconds, so you can get back to what you were doing.
+Park a nagging thought in 2 seconds: press **⌃⌥Space**, type it, hit **↩**.
 
-## Usage
+A macOS menu bar app named after the **Zeigarnik effect**: unfinished tasks keep looping in your head until they're stored somewhere you trust.
 
-| | |
+## Install (about 2 minutes)
+
+1. `cd zeigarnik`
+2. `./build.sh`
+3. `open build/Zeigarnik.app`
+
+Needs macOS 14+ and the Xcode Command Line Tools (`xcode-select --install`). Full Xcode isn't required.
+
+## Use it
+
+| Action | What happens |
 |---|---|
-| **⌃⌥Space** | Opens the capture popup in the center of the screen. Type the thought, press ↩ to park it, esc to close. Your open loops are listed underneath. |
-| **↻ in the menu bar** | Shows your open loops right under the icon. Click outside or press esc to close. |
+| **⌃⌥Space** | Capture popup opens in the center of the screen. Your open loops are listed below the text box. |
+| **↻ in the menu bar** | Open loops appear under the icon. |
 | **○** | Closes a loop (marks it done). |
 | **×** (on hover) | Deletes a loop. |
+| **esc** or click outside | Dismisses the popup or menu. |
 
-Loops also resurface on their own. Each one remembers which app you parked it in, and if you return to that app after 20+ minutes away, its loops pop up in the top-right corner.
+Loops come back on their own: return to an app after 20+ minutes away, and the loops you parked there pop up top-right.
 
-## Design
+## Keep it running
 
-The UI follows the [vibe-coding](https://github.com/ayushkothari27/vibe-coding) web theme: navy `#1A1A2E` background with soft drifting color blobs, Fraunces for display type, and Space Grotesk for everything else. Both fonts are bundled in `Resources/Fonts` (SIL Open Font License) and registered at launch, so nothing needs installing.
+1. Copy `build/Zeigarnik.app` to `/Applications`
+2. Add it in **System Settings → General → Login Items**
 
-## Build
+## Your data
 
-Needs only the Xcode Command Line Tools; full Xcode isn't required. macOS 14+.
+- Stored only on your Mac: `~/Library/Application Support/Zeigarnik/loops.json`
+- No network access and no permissions requested
+- Closed loops are deleted after 30 days
 
-```sh
-./build.sh
-open build/Zeigarnik.app
-```
+To uninstall: quit it, then delete the app and that folder.
 
-To keep it around, copy `build/Zeigarnik.app` to `/Applications`. Add it under **System Settings → General → Login Items** to start it at login.
+## For developers
 
-Because the Command Line Tools don't ship SwiftUI's macro plugin, the code avoids `@State` and uses a small `@Observable` `Box` class instead. The global hotkey uses Carbon's `RegisterEventHotKey`, so no Accessibility permission is needed.
+| File | Job |
+|---|---|
+| `AppController.swift` | Menu bar icon, hotkey, panel placement, resurfacing |
+| `Panels.swift` | Capture popup, loop cards, toast |
+| `Theme.swift` | Colors, fonts, background blobs |
+| `LoopStore.swift` / `Models.swift` | Saving loops as JSON |
+| `HotKey.swift` / `AppWatcher.swift` | Global hotkey, frontmost-app tracking |
 
-## Data
-
-Everything stays on your Mac, in `~/Library/Application Support/Zeigarnik/loops.json`. Closed loops are pruned after 30 days.
-
-## Project layout
-
-```
-Sources/Zeigarnik/
-  ZeigarnikApp.swift    app entry + menu dropdown view
-  AppController.swift   status item, hotkey, panel placement, resurfacing
-  AppWatcher.swift      tracks when each app was last frontmost
-  LoopStore.swift       loop persistence
-  Panels.swift          capture popup, loop cards, toast
-  Theme.swift           colors, fonts, blob background
-  HotKey.swift          Carbon global hotkey
-  Models.swift          OpenLoop, Box, JSON storage
-```
-
-Dev aid: `ZEIGARNIK_SNAPSHOT=out.png ./build/Zeigarnik.app/Contents/MacOS/Zeigarnik` renders the capture popup to a PNG and quits. Add `ZEIGARNIK_SNAPSHOT_VIEW=menu` to render the dropdown instead.
+- **Theme:** matches [vibe-coding](https://github.com/ayushkothari27/vibe-coding): navy `#1A1A2E`, Fraunces + Space Grotesk (bundled, OFL)
+- **No `@State`:** the Command Line Tools lack SwiftUI's macro plugin, so view state uses an `@Observable` `Box`
+- **Screenshot without clicking:** `ZEIGARNIK_SNAPSHOT=out.png build/Zeigarnik.app/Contents/MacOS/Zeigarnik` (add `ZEIGARNIK_SNAPSHOT_VIEW=menu` for the dropdown)

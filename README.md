@@ -1,17 +1,15 @@
 # vibecoded-mac-apps
 
-Small native macOS apps, vibe-coded with Claude. Each one lives in its own folder and builds with just the Xcode Command Line Tools, no full Xcode needed.
+Build any app here in about 2 minutes:
+
+1. `cd <app>`
+2. `./build.sh`
+3. `open build/<App>.app`
+
+Small native macOS apps, vibe-coded with Claude. Each one builds with only the Xcode Command Line Tools.
 
 ## Apps
 
-| App | Path | Description |
-|-----|------|-------------|
-| **Zeigarnik** | [`zeigarnik/`](zeigarnik/) | Menu bar app for parking "open loops" (Zeigarnik effect). Press ⌃⌥Space to offload a nagging thought; loops resurface when you return to the app you left them in. |
-
-## Building
-
-```sh
-cd <app>
-./build.sh
-open build/<App>.app
-```
+| App | What it does |
+|-----|------|
+| [**Zeigarnik**](zeigarnik/) | Press ⌃⌥Space to park a nagging thought. It comes back when you return to the app you left it in. |
