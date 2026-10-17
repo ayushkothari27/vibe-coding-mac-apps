@@ -13,7 +13,13 @@ struct OpenLoop: Codable, Identifiable, Equatable {
 enum Storage {
     static let directory: URL = {
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-        let url = base.appendingPathComponent("Flowstate", isDirectory: true)
+        let url = base.appendingPathComponent("Zeigarnik", isDirectory: true)
+        // The app used to be called Flowstate; carry its data over once.
+        let legacy = base.appendingPathComponent("Flowstate", isDirectory: true)
+        if !FileManager.default.fileExists(atPath: url.path),
+           FileManager.default.fileExists(atPath: legacy.path) {
+            try? FileManager.default.moveItem(at: legacy, to: url)
+        }
         try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
         return url
     }()

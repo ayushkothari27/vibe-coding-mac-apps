@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct FlowstateApp: App {
+struct ZeigarnikApp: App {
     @NSApplicationDelegateAdaptor private var delegate: AppDelegate
 
     var body: some Scene {

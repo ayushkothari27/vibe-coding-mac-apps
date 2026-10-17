@@ -2,9 +2,9 @@
 import PackageDescription
 
 let package = Package(
-    name: "Flowstate",
+    name: "Zeigarnik",
     platforms: [.macOS(.v14)],
     targets: [
-        .executableTarget(name: "Flowstate", path: "Sources/Flowstate")
+        .executableTarget(name: "Zeigarnik", path: "Sources/Zeigarnik")
     ]
 )

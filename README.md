@@ -6,7 +6,7 @@ Small native macOS apps, vibe-coded with Claude. Each one lives in its own folde
 
 | App | Path | Description |
 |-----|------|-------------|
-| **Flowstate** | [`flowstate/`](flowstate/) | Menu bar app for parking "open loops" (Zeigarnik effect). Press ⌃Space to offload a nagging thought; loops resurface when you return to the app you left them in. |
+| **Zeigarnik** | [`zeigarnik/`](zeigarnik/) | Menu bar app for parking "open loops" (Zeigarnik effect). Press ⌃⌥Space to offload a nagging thought; loops resurface when you return to the app you left them in. |
 
 ## Building
 

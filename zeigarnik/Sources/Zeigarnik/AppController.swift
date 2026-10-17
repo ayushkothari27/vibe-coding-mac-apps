@@ -29,9 +29,9 @@ final class AppController: NSObject {
         watcher.start()
         setUpStatusItem()
         let env = ProcessInfo.processInfo.environment
-        if let path = env["FLOWSTATE_SNAPSHOT"] {
+        if let path = env["ZEIGARNIK_SNAPSHOT"] {
             DispatchQueue.main.async {
-                if env["FLOWSTATE_SNAPSHOT_VIEW"] == "menu" {
+                if env["ZEIGARNIK_SNAPSHOT_VIEW"] == "menu" {
                     let panel = FloatingPanel(MenuView(loops: self.loops))
                     panel.orderFrontRegardless()
                     self.snapshot(panel, to: path)
@@ -40,7 +40,7 @@ final class AppController: NSObject {
                 }
             }
         }
-        hotKey = HotKey(keyCode: kVK_Space, modifiers: controlKey) { [weak self] in
+        hotKey = HotKey(keyCode: kVK_Space, modifiers: controlKey | optionKey) { [weak self] in
             self?.toggleCapture()
         }
     }
@@ -117,8 +117,8 @@ final class AppController: NSObject {
         }
         panel.makeKeyAndOrderFront(nil)
         capturePanel = panel
-        if let path = ProcessInfo.processInfo.environment["FLOWSTATE_SNAPSHOT"],
-           ProcessInfo.processInfo.environment["FLOWSTATE_SNAPSHOT_VIEW"] == nil {
+        if let path = ProcessInfo.processInfo.environment["ZEIGARNIK_SNAPSHOT"],
+           ProcessInfo.processInfo.environment["ZEIGARNIK_SNAPSHOT_VIEW"] == nil {
             snapshot(panel, to: path)
         }
     }
@@ -150,8 +150,8 @@ final class AppController: NSObject {
         }
     }
 
-    /// Dev aid: FLOWSTATE_SNAPSHOT=out.png renders the capture panel (or, with
-    /// FLOWSTATE_SNAPSHOT_VIEW=menu, the dropdown) to a PNG and quits.
+    /// Dev aid: ZEIGARNIK_SNAPSHOT=out.png renders the capture panel (or, with
+    /// ZEIGARNIK_SNAPSHOT_VIEW=menu, the dropdown) to a PNG and quits.
     private func snapshot(_ panel: NSPanel, to path: String) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             guard let view = panel.contentView,
