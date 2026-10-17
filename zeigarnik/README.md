@@ -21,6 +21,7 @@ Needs macOS 14+ and the Xcode Command Line Tools (`xcode-select --install`). Ful
 | **○** | Closes a loop (marks it done). |
 | **×** (on hover) | Deletes a loop. |
 | **esc** or click outside | Dismisses the popup or menu. |
+| **Right-click ↻** | Quit Zeigarnik. |
 
 Loops come back on their own: return to an app after 20+ minutes away, and the loops you parked there pop up top-right.
 
@@ -35,7 +36,7 @@ Loops come back on their own: return to an app after 20+ minutes away, and the l
 - No network access and no permissions requested
 - Closed loops are deleted after 30 days
 
-To uninstall: quit it, then delete the app and that folder.
+To uninstall: right-click ↻ → Quit, then delete the app and that folder.
 
 ## For developers
 

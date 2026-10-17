@@ -52,11 +52,32 @@ final class AppController: NSObject {
         item.button?.image = NSImage(systemSymbolName: "arrow.triangle.2.circlepath",
                                      accessibilityDescription: "Open loops")
         item.button?.target = self
-        item.button?.action = #selector(toggleMenu)
+        item.button?.action = #selector(statusItemClicked)
+        item.button?.sendAction(on: [.leftMouseUp, .rightMouseUp])
         statusItem = item
     }
 
-    @objc private func toggleMenu() {
+    /// Left click shows loops; right click (or ⌃-click) shows a small menu with Quit.
+    @objc private func statusItemClicked() {
+        let event = NSApp.currentEvent
+        if event?.type == .rightMouseUp || event?.modifierFlags.contains(.control) == true {
+            showContextMenu()
+        } else {
+            toggleMenu()
+        }
+    }
+
+    private func showContextMenu() {
+        closeMenu()
+        let menu = NSMenu()
+        menu.addItem(withTitle: "Quit Zeigarnik", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
+        // Attach only for this click so a normal left click still opens the loops panel.
+        statusItem?.menu = menu
+        statusItem?.button?.performClick(nil)
+        statusItem?.menu = nil
+    }
+
+    private func toggleMenu() {
         if menuPanel?.isVisible == true {
             closeMenu()
             return
