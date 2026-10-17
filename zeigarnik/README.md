@@ -17,7 +17,7 @@ Needs macOS 14+ and the Xcode Command Line Tools (`xcode-select --install`). Ful
 | Action | What happens |
 |---|---|
 | **⌃⌥Space** | Capture popup opens in the center of the screen. Your open loops are listed below the text box. |
-| **↻ in the menu bar** | Open loops appear under the icon. |
+| **↻ in the menu bar**, or open the app again | Open loops appear under the icon. |
 | **○** | Closes a loop (marks it done). |
 | **×** (on hover) | Deletes a loop. |
 | **esc** or click outside | Dismisses the popup or menu. |
@@ -44,6 +44,7 @@ To uninstall: right-click ↻ → Quit, then delete the app and that folder.
 |---|---|
 | `AppController.swift` | Menu bar icon, hotkey, panel placement, resurfacing |
 | `Panels.swift` | Capture popup, loop cards, toast |
+| `MenuView.swift` / `main.swift` | Dropdown view, AppKit entry point |
 | `Theme.swift` | Colors, fonts, background blobs |
 | `LoopStore.swift` / `Models.swift` | Saving loops as JSON |
 | `HotKey.swift` / `AppWatcher.swift` | Global hotkey, frontmost-app tracking |

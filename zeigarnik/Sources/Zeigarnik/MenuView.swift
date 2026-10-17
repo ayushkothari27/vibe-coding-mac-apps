@@ -1,19 +1,21 @@
 import SwiftUI
 
-@main
-struct ZeigarnikApp: App {
-    @NSApplicationDelegateAdaptor private var delegate: AppDelegate
-
-    var body: some Scene {
-        // The menu bar item and panels are managed in AppKit by AppController,
-        // so their placement can be controlled exactly.
-        Settings { EmptyView() }
-    }
-}
-
+/// Opening the app (from Finder, Spotlight or Launchpad) shows the loops dropdown,
+/// since a menu bar app has no main window.
 final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
-        MainActor.assumeIsolated { AppController.shared.start() }
+        MainActor.assumeIsolated {
+            AppController.shared.start()
+        }
+        // Give the new status item a moment to be laid out, so the dropdown anchors under it.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            MainActor.assumeIsolated { AppController.shared.showMenu() }
+        }
+    }
+
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        MainActor.assumeIsolated { AppController.shared.showMenu() }
+        return false
     }
 }
 

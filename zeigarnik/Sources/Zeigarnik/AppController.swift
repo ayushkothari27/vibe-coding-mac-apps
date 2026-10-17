@@ -80,8 +80,13 @@ final class AppController: NSObject {
     private func toggleMenu() {
         if menuPanel?.isVisible == true {
             closeMenu()
-            return
+        } else {
+            showMenu()
         }
+    }
+
+    func showMenu() {
+        guard menuPanel?.isVisible != true else { return }
         guard let button = statusItem?.button, let buttonWindow = button.window else { return }
         let panel = FloatingPanel(MenuView(loops: loops))
         panel.onCancel = { [weak self] in self?.closeMenu() }

@@ -42,14 +42,15 @@ final class FloatingPanel: NSPanel {
         hasShadow = true
 
         let shape = RoundedRectangle(cornerRadius: 16, style: .continuous)
-        let host = NSHostingView(rootView: content
+        let controller = NSHostingController(rootView: content
             .background(ThemeBackground())
             .clipShape(shape)
             .overlay(shape.strokeBorder(Theme.border)))
-        // Track the content's size, so the panel shrinks as loops are closed.
-        host.sizingOptions = [.minSize, .maxSize]
-        contentView = host
-        setContentSize(host.fittingSize)
+        // The window follows the content's preferred size, so it shrinks as loops are closed.
+        controller.sizingOptions = [.preferredContentSize]
+        contentViewController = controller
+        controller.view.layoutSubtreeIfNeeded()
+        setContentSize(controller.view.fittingSize)
     }
 
     override var canBecomeKey: Bool { true }
