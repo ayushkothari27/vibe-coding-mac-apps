@@ -1,4 +1,4 @@
-# vibecoded-mac-apps
+# vibe-coding-mac-apps
 
 Build any app here in about 2 minutes:
 
